@@ -915,6 +915,10 @@ ChessPieceTrackerList = [[0] * 8 for i in range(8)]
 
 
 def InitializeGame():
+
+    player1.isFirstPlayer = True
+    player2.isFirstPlayer = False
+
     if player1.isTop:
         if player1.PlayerColor == "White":
             whiteKingPosition = [0, 3]
@@ -1023,6 +1027,9 @@ def InitializeGame():
                 screen.blit(image, (((MARGIN + WIDTH) * y + MARGIN + 15), ((MARGIN + HEIGHT) * x + MARGIN + 15)))
 
             ChessPieceTrackerList[x][y] = tempobj
+
+    messagebox.showinfo("showinfo", "White needs to start !")
+
 
 
 def CheckIfAllyInBetweenKingandEnemy(dir, kingcolor, ki, kj):
@@ -1169,6 +1176,14 @@ done = False
 
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
+
+green = (0, 255, 0)
+blue = (0, 0, 128)
+font = pygame.font.Font('freesansbold.ttf', 32)
+text = font.render('Game Started !', True, green, blue)
+textRect = text.get_rect()
+# set the center of the rectangular object.
+textRect.center = (150,700)
 
 # -------- Main Program Loop -----------
 isTop = True
@@ -1534,11 +1549,15 @@ while not done:
                     if tempChessObj.player == player1:
                         player1.isFirstPlayer = False
                         player2.isFirstPlayer = True
-                        print(f'{player2.PlayerColor}\'s turn')
+
+                        text = font.render(f'{player2.PlayerColor}\'s turn', True, green, blue)
+                        screen.blit(text, textRect)
                     else:
                         player1.isFirstPlayer = True
                         player2.isFirstPlayer = False
-                        print(f'{player1.PlayerColor}\'s turn')
+
+                        text = font.render(f'{player1.PlayerColor}\'s turn', True, green, blue)
+                        screen.blit(text, textRect)
 
                 TempPossibleMovesForRender = []
                 tempChessObj = None
